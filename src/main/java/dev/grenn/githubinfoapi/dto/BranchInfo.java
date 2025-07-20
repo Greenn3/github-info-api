@@ -1,4 +1,4 @@
-package dev.grenn.githubinfoapi.model;
+package dev.grenn.githubinfoapi.dto;
 
 public record BranchInfo(
         String name,

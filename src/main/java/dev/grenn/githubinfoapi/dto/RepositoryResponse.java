@@ -1,4 +1,4 @@
-package dev.grenn.githubinfoapi.model;
+package dev.grenn.githubinfoapi.dto;
 
 import java.util.List;
 

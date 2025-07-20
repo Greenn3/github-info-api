@@ -1,6 +1,6 @@
-package dev.grenn.githubinfoapi.service;
+package dev.grenn.githubinfoapi.client;
 
-import dev.grenn.githubinfoapi.UserNotFoundException;
+import dev.grenn.githubinfoapi.exception.UserNotFoundException;
 import dev.grenn.githubinfoapi.dto.BranchInfo;
 import dev.grenn.githubinfoapi.dto.RepositoryResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +25,11 @@ public class GithubService {
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {});
 
+
             return repos.stream()
-                    .filter(repo -> !(Boolean) repo.get("fork"))
+                    .filter(repo -> Boolean.FALSE.equals(repo.get("fork")))
                     .map(repo -> {
+
                         String repoName = (String) repo.get("name");
                         String ownerLogin = ((Map<String, String>) repo.get("owner")).get("login");
                         List<BranchInfo> branches = getBranches(ownerLogin, repoName);
@@ -37,7 +39,9 @@ public class GithubService {
         } catch (HttpClientErrorException.NotFound e) {
             throw new UserNotFoundException();
         }
+
     }
+
 
     private List<BranchInfo> getBranches(String owner, String repo) {
         List<Map<String, Object>> branches = restClient.get()
